@@ -1,0 +1,33 @@
+Option 1: probabilities = [0.5, 0.1, -0.019, 0.2, 0.17, 0.0081, 0.0009, 0.04] This is not a valid distribution because it contains a negative probability (-0.019 for the word 'ocean').
+
+Option 2: probabilities = [0.99, 0.61, 0.001, 0.2, 0.05, 0.0081, 0.0009, 0.03] All probabilities are non-negative, which is good. However, if we sum them up: 0.99 + 0.61 + ... = 1.89 The sum is greater than 1, so this is not a valid distribution.
+
+Option 3: probabilities = [0.1, 0.61, 0.001, 0.2, 0.05, 0.0081, 0.0009, 0.03] All probabilities are non-negative. Let's check the sum: 0.1 + 0.61 + 0.001 + 0.2 + 0.05 + 0.0081 + 0.0009 + 0.03 = 1.0 The sum is exactly 1. This is a valid probability distribution.
+
+Option 4: probabilities = [0.5, 0.1, 0.001, 0.02, 0.1, 0.0001, 0.0001, 0.03] All probabilities are non-negative. Let's check the sum: 0.5 + 0.1 + 0.001 + 0.02 + 0.1 + 0.0001 + 0.0001 + 0.03 = 0.7512 The sum is less than 1, so this is not a valid distribution.
+
+Therefore, the only pair that defines a proper language model probability distribution is the third one.
+
+Here is a small Python snippet you could use to verify this:
+
+python
+import math
+
+def is_valid_probability_distribution(probabilities):
+    """Checks if a list of numbers is a valid probability distribution."""
+    # Rule 1: Check for non-negativity
+    if any(p < 0 for p in probabilities):
+        print("Invalid: Contains negative probabilities.")
+        return False
+    
+    # Rule 2: Check if the sum is 1 (using a tolerance for floating point math)
+    if not math.isclose(sum(probabilities), 1.0):
+        print(f"Invalid: Probabilities sum to {sum(probabilities)}, not 1.")
+        return False
+        
+    print("Valid probability distribution.")
+    return True
+
+# Option 3
+probabilities = [0.1, 0.61, 0.001, 0.2, 0.05, 0.0081, 0.0009, 0.03]
+is_valid_probability_distribution(probabilities)
